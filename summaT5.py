@@ -29,3 +29,25 @@ def summarize(text,ml):
 
   output = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
   return output
+
+text="""
+Brand new/unworn Rolex GMT-Master II 126710BLNR 'Batman', complete with box & papers, dated 2021.
+
+The photos displayed are from the actual watch for sale.
+
+EU/worldwide shipping on request. Shipping within Greece is free of charge.
+
+Feel free to contact us for any further information.
+
+Please note the following:
+
+- Price is excluding shipping.
+- We do not sell tax-free.
+- For watches marked as "available now", we normally ship within 1 business day upon receiving payment.
+- We sell only 100% authentic watches, all watches displayed are fully checked for authenticity.
+- All new/unworn watches are accompanied by their genuine documents, including a stamped and dated international manufacturer's warranty.
+- As a company, we do not have a physical store. For security reasons, we do not keep our stock at our offices. Watch viewings, whenever possible, are strictly by appointment only.
+"""
+print("Number of characters:",len(text))
+summary=summarize(text,50)
+print ("\n\nSummarized text: \n",summary)
