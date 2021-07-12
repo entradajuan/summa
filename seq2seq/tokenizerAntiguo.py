@@ -27,3 +27,12 @@ tokenizer = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(sentences,
 # How big is the vocab size?
 print("Vocab size is ", tokenizer.vocab_size)
 
+my_sentences = ['Elon Musk under fire again: CEO to testify over Tesla’s acquisition of SolarCity', 
+                'TikTok owner ByteDance shelved IPO plans after warning from China', 
+                'Walmart-backed Flipkart raises $3.6 billion in latest funding round']
+
+
+vocab_size = 2**20
+tokenizer2 = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(my_sentences, vocab_size, max_subword_length=5)
+
+print("Vocab size is ", tokenizer2.vocab_size)
