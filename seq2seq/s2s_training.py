@@ -65,15 +65,16 @@ ds_train, _, _ = load_data()
 import tensorflow_text as tf_text
 
 ## FUNCIONES _________________________________________________
-
 def get_tokenizer(data, file="gigaword32k.enc"):
     if os.path.exists(file+'.subwords'):
         # data has already been tokenized - just load and return
-        tokenizer = tf_text.WordpieceTokenizer(file+'.subwords', token_out_type=tf.int64)        
+        #tokenizer = tf_text.WordpieceTokenizer(file+'.subwords', token_out_type=tf.int64)        
+        tokenizer = tfds.deprecated.text.SubwordTextEncoder.load_from_file(file)
     else:
         # This takes a while
         #tokenizer = tfds.features.text.SubwordTextEncoder.build_from_corpus(((art.numpy() + b" " + smm.numpy()) for art, smm in data),target_vocab_size=2**15)
-        tokenizer = tf_text.WordpieceTokenizer(((art.numpy() + b" " + smm.numpy()) for art, smm in data), token_out_type=tf.int64)        
+        tokenizer = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(((art.numpy() + b" " + smm.numpy()) for art, smm in data),target_vocab_size=2**15)
+        #tokenizer = tf_text.WordpieceTokenizer(((art.numpy() + b" " + smm.numpy()) for art, smm in data), token_out_type=tf.int64)        
         tokenizer.save_to_file(file)  # save for future iterations
 #    print("Tokenizer ready. Total vocabulary size: ", tokenizer.vocab_size)
     return tokenizer
@@ -84,7 +85,7 @@ tokenizer = get_tokenizer(ds_train)
 
 ## Test tokenizer
 txt = "Coronavirus spread surprised everyone"
-print(txt, " => ", tokenizer.tokenize(txt.lower()))
+print(txt, " => ",  tokenizer.encode(txt.lower()))
 
 
 
