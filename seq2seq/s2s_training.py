@@ -88,5 +88,9 @@ txt = "Coronavirus spread surprised everyone"
 print(txt, " => ",  tokenizer.encode(txt.lower()))
 
 
+for ts in tokenizer.encode(txt.lower()):
+    print ('{} ----> {}'.format(ts, tokenizer.decode([ts])))
+
+
 
 
