@@ -57,12 +57,9 @@ ds_train, _, _ = load_data()
 
 ##
 # OJO AQUI!!!
-##
-%cd seq2sec
-
-!pip install tensorflow_text
-
-import tensorflow_text as tf_text
+#%cd seq2sec
+#!pip install tensorflow_text
+#import tensorflow_text as tf_text
 
 ## FUNCIONES _________________________________________________
 def get_tokenizer(data, file="gigaword32k.enc"):
@@ -90,7 +87,3 @@ print(txt, " => ",  tokenizer.encode(txt.lower()))
 
 for ts in tokenizer.encode(txt.lower()):
     print ('{} ----> {}'.format(ts, tokenizer.decode([ts])))
-
-
-
-
