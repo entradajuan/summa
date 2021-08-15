@@ -62,7 +62,7 @@ ds_train, _, _ = load_data()
 #import tensorflow_text as tf_text
 
 ## FUNCIONES _________________________________________________
-def get_tokenizer(data, file="gigaword32k.enc"):
+def get_tokenizer(data, file="seq2seq/gigaword32k.enc"):
     if os.path.exists(file+'.subwords'):
         # data has already been tokenized - just load and return
         #tokenizer = tf_text.WordpieceTokenizer(file+'.subwords', token_out_type=tf.int64)        
@@ -84,6 +84,16 @@ tokenizer = get_tokenizer(ds_train)
 txt = "Coronavirus spread surprised everyone"
 print(txt, " => ",  tokenizer.encode(txt.lower()))
 
-
 for ts in tokenizer.encode(txt.lower()):
     print ('{} ----> {}'.format(ts, tokenizer.decode([ts])))
+
+# add start and end of sentence tokens
+start = tokenizer.vocab_size + 1 
+end = tokenizer.vocab_size
+vocab_size = end + 2
+
+BUFFER_SIZE = 3500000  # 3500000 takes 7hr/epoch 
+BATCH_SIZE = 64  # try bigger batch for faster training
+
+
+
