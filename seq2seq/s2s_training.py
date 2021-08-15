@@ -45,12 +45,12 @@ def load_data():
         as_supervised=True,
         with_info=True,
     )
-    return ds_train, ds_val, ds_test
+    return ds_train, ds_val, ds_test, ds_info
 
 ## INICIO _________________________________________________
 
 setupGPU()  # OPTIONAL - only if using GPU
-ds_train, _, _ = load_data()
+ds_train, _, _, info = load_data()
 
 ###################################################################################3
 ##  Hasta aqui la descarga del dataset  _________________________________________________
@@ -95,5 +95,7 @@ vocab_size = end + 2
 BUFFER_SIZE = 3500000  # 3500000 takes 7hr/epoch 
 BATCH_SIZE = 64  # try bigger batch for faster training
 
-
+df1 = tfds.as_dataframe(ds_train.take(4), info)
+print(df1.columns)
+df1
 
