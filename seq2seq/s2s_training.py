@@ -99,3 +99,45 @@ df1 = tfds.as_dataframe(ds_train.take(4), info)
 print(df1.columns)
 df1
 
+def encode(article, summary, start=start, end=end, tokenizer=tokenizer, 
+           art_max_len=128, smry_max_len=50):
+    tokens = tokenizer.encode(article.numpy())
+    if len(tokens) > art_max_len:
+        tokens = tokens[:art_max_len]
+    art_enc = sequence.pad_sequences([tokens], padding='post',
+                                 maxlen=art_max_len).squeeze()
+    
+    tokens = [start] + tokenizer.encode(summary.numpy())
+    
+    if len(tokens) > smry_max_len:
+        tokens = tokens[:smry_max_len]
+    else:
+        tokens = tokens + [end]
+    
+    smry_enc = sequence.pad_sequences([tokens], padding='post',
+                                 maxlen=smry_max_len).squeeze()
+
+    return art_enc, smry_enc
+
+
+
+def tf_encode(article, summary):
+    art_enc, smry_enc = tf.py_function(encode, [article, summary],
+                                     [tf.int64, tf.int64])
+    art_enc.set_shape([None])
+    smry_enc.set_shape([None])
+    return art_enc, smry_enc
+
+train = ds_train.take(BUFFER_SIZE)  # 1.5M samples
+print("Dataset sample taken")
+train_dataset = train.map(tf_encode) 
+
+# train_dataset = train_dataset.shuffle(BUFFER_SIZE) – optional 
+train_dataset = train_dataset.batch(BATCH_SIZE, drop_remainder=True)
+print("Dataset batching done")
+
+steps_per_epoch = BUFFER_SIZE // BATCH_SIZE
+embedding_dim = 128
+units = 256  # from pointer generator paper
+EPOCHS = 6 
+
