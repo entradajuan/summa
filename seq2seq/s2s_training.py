@@ -92,7 +92,7 @@ start = tokenizer.vocab_size + 1
 end = tokenizer.vocab_size
 vocab_size = end + 2
 
-BUFFER_SIZE = 3500000  # 3500000 takes 7hr/epoch 
+BUFFER_SIZE = 2000 #  3500000  # 3500000 takes 7hr/epoch 
 BATCH_SIZE = 64  # try bigger batch for faster training
 
 df1 = tfds.as_dataframe(ds_train.take(4), info)
